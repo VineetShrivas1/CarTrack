@@ -1,0 +1,632 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarTrackModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="APILog">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RequestDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ResponseDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="TimeTaken" Type="int" StoreGeneratedPattern="Computed" />
+          <Property Name="APICode" Type="int" />
+          <Property Name="ErrorFound" Type="bit" />
+          <Property Name="ErrorCode" Type="varchar" MaxLength="50" />
+          <Property Name="APIResponse" Type="varchar" MaxLength="255" />
+          <Property Name="UserID" Type="varchar" MaxLength="128" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="20" />
+          <Property Name="Source" Type="varchar" MaxLength="50" />
+          <Property Name="UserDeviceID" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="APIMaster">
+          <Key>
+            <PropertyRef Name="APICode" />
+          </Key>
+          <Property Name="APICode" Type="int" Nullable="false" />
+          <Property Name="APIName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="RequestParam" Type="varchar(max)" />
+          <Property Name="ResponseParam" Type="varchar(max)" />
+          <Property Name="MethodType" Type="varchar" MaxLength="50" />
+          <Property Name="IsAuthTokenRequired" Type="bit" />
+          <Property Name="ApiURL" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="DefaultSetting">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseUrl" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="NotificationInterval" Type="int" Nullable="false" />
+          <Property Name="NotificationLanguage" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NotificationDistance" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AboutUsUrl" Type="varchar" MaxLength="200" />
+          <Property Name="MinDistance" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="MaxDistance" Type="decimal" Precision="19" Scale="2" />
+          <Property Name="MinRefreshInterval" Type="decimal" Precision="19" Scale="0" />
+          <Property Name="MaxRefreshInterval" Type="decimal" Precision="19" Scale="0" />
+          <Property Name="AddDeviceAfterDays" Type="int" />
+        </EntityType>
+        <EntityType Name="DeviceInventory">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Name="BeaconID" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="InventoryStatus" Type="bit" Nullable="false" />
+          <Property Name="InventoryIncDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsRegistered" Type="bit" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="BeaconUDID" Type="varchar" MaxLength="75" />
+          <Property Name="Major" Type="int" />
+          <Property Name="Minor" Type="int" />
+        </EntityType>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="TemplateID" />
+          </Key>
+          <Property Name="TemplateID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TemplateBody" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="TemplateType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ErrorMessageMaster">
+          <Key>
+            <PropertyRef Name="ErrorCode" />
+          </Key>
+          <Property Name="ErrorCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="ErrorMessage" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="ErrorFound" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedBackID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserFeedback" Type="varchar" MaxLength="2000" Nullable="false" />
+          <Property Name="FeedbackDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="RatingText" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FeedBackID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MyCars">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="BeaconID" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="CarName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsFavorite" Type="bit" />
+          <Property Name="BeaconImage" Type="varchar(max)" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="20" />
+          <Property Name="UserDeviceID" Type="varchar" MaxLength="255" />
+          <Property Name="DeviceStatus" Type="bit" />
+          <Property Name="RegistrationDate" Type="datetime2" Precision="7" />
+          <Property Name="BeaconUDID" Type="varchar" MaxLength="200" />
+          <Property Name="IsDeleted" Type="bit" />
+          <Property Name="DeletionDate" Type="datetime2" Precision="7" />
+          <Property Name="Major" Type="int" />
+          <Property Name="Minor" Type="int" />
+        </EntityType>
+        <EntityType Name="OneTimePassword">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="OTP" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsExpired" Type="bit" />
+          <Property Name="OTPDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="EmailAddress" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="MobileNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="LoginErrorCount" Type="int" />
+          <Property Name="IsLocked" Type="bit" />
+          <Property Name="IsVerified" Type="bit" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="20" />
+          <Property Name="UserDeviceID" Type="varchar" MaxLength="255" />
+          <Property Name="AuthToken" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserSetting">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="NotificationInterval" Type="int" Nullable="false" />
+          <Property Name="NotificationLanguage" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Feedback_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyCars_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="MyCars" Type="Self.MyCars" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MyCars">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OTP_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="OneTimePassword" Type="Self.OneTimePassword" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OneTimePassword">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSetting_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="UserSetting" Type="Self.UserSetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarTrackModelStoreContainer">
+          <EntitySet Name="APILog" EntityType="Self.APILog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="APIMaster" EntityType="Self.APIMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DefaultSetting" EntityType="Self.DefaultSetting" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeviceInventory" EntityType="Self.DeviceInventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailTemplate" EntityType="Self.EmailTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ErrorMessageMaster" EntityType="Self.ErrorMessageMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MyCars" EntityType="Self.MyCars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OneTimePassword" EntityType="Self.OneTimePassword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInformation" EntityType="Self.UserInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSetting" EntityType="Self.UserSetting" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Feedback_UserInformation" Association="Self.FK_Feedback_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformation" />
+            <End Role="Feedback" EntitySet="Feedback" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyCars_UserInformation" Association="Self.FK_MyCars_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformation" />
+            <End Role="MyCars" EntitySet="MyCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OTP_UserInformation" Association="Self.FK_OTP_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformation" />
+            <End Role="OneTimePassword" EntitySet="OneTimePassword" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSetting_UserInformation" Association="Self.FK_UserSetting_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformation" />
+            <End Role="UserSetting" EntitySet="UserSetting" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarTrackModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="APILog">
+          <Key>
+            <PropertyRef Name="RequestID" />
+          </Key>
+          <Property Name="RequestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ResponseDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="TimeTaken" Type="Int32" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="APICode" Type="Int32" />
+          <Property Name="ErrorFound" Type="Boolean" />
+          <Property Name="ErrorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="APIResponse" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Source" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserDeviceID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="APIMaster">
+          <Key>
+            <PropertyRef Name="APICode" />
+          </Key>
+          <Property Name="APICode" Type="Int32" Nullable="false" />
+          <Property Name="APIName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RequestParam" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ResponseParam" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MethodType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsAuthTokenRequired" Type="Boolean" />
+          <Property Name="ApiURL" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="DefaultSetting">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NotificationInterval" Type="Int32" Nullable="false" />
+          <Property Name="NotificationLanguage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NotificationDistance" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="AboutUsUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="MinDistance" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="MaxDistance" Type="Decimal" Precision="19" Scale="2" />
+          <Property Name="MinRefreshInterval" Type="Decimal" Precision="19" Scale="0" />
+          <Property Name="MaxRefreshInterval" Type="Decimal" Precision="19" Scale="0" />
+          <Property Name="AddDeviceAfterDays" Type="Int32" />
+        </EntityType>
+        <EntityType Name="DeviceInventory">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Name="BeaconID" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="InventoryStatus" Type="Boolean" Nullable="false" />
+          <Property Name="InventoryIncDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsRegistered" Type="Boolean" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BeaconUDID" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="Major" Type="Int32" />
+          <Property Name="Minor" Type="Int32" />
+        </EntityType>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="TemplateID" />
+          </Key>
+          <Property Name="TemplateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TemplateBody" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TemplateType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ErrorMessageMaster">
+          <Key>
+            <PropertyRef Name="ErrorCode" />
+          </Key>
+          <Property Name="ErrorCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ErrorFound" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feedback">
+          <Key>
+            <PropertyRef Name="FeedBackID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserFeedback" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FeedbackDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="RatingText" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FeedBackID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="UserInformation" Relationship="Self.FK_Feedback_UserInformation" FromRole="Feedback" ToRole="UserInformation" />
+        </EntityType>
+        <EntityType Name="MyCar">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BeaconID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CarName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsFavorite" Type="Boolean" />
+          <Property Name="BeaconImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserDeviceID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DeviceStatus" Type="Boolean" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="7" />
+          <Property Name="BeaconUDID" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <Property Name="DeletionDate" Type="DateTime" Precision="7" />
+          <Property Name="Major" Type="Int32" />
+          <Property Name="Minor" Type="Int32" />
+          <NavigationProperty Name="UserInformation" Relationship="Self.FK_MyCars_UserInformation" FromRole="MyCars" ToRole="UserInformation" />
+        </EntityType>
+        <EntityType Name="OneTimePassword">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OTP" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsExpired" Type="Boolean" />
+          <Property Name="OTPDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="UserInformation" Relationship="Self.FK_OTP_UserInformation" FromRole="OneTimePassword" ToRole="UserInformation" />
+        </EntityType>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MobileNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <Property Name="LoginErrorCount" Type="Int32" />
+          <Property Name="IsLocked" Type="Boolean" />
+          <Property Name="IsVerified" Type="Boolean" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserDeviceID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AuthToken" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Feedbacks" Relationship="Self.FK_Feedback_UserInformation" FromRole="UserInformation" ToRole="Feedback" />
+          <NavigationProperty Name="MyCars" Relationship="Self.FK_MyCars_UserInformation" FromRole="UserInformation" ToRole="MyCars" />
+          <NavigationProperty Name="OneTimePassword" Relationship="Self.FK_OTP_UserInformation" FromRole="UserInformation" ToRole="OneTimePassword" />
+          <NavigationProperty Name="UserSetting" Relationship="Self.FK_UserSetting_UserInformation" FromRole="UserInformation" ToRole="UserSetting" />
+        </EntityType>
+        <EntityType Name="UserSetting">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NotificationInterval" Type="Int32" Nullable="false" />
+          <Property Name="NotificationLanguage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="UserInformation" Relationship="Self.FK_UserSetting_UserInformation" FromRole="UserSetting" ToRole="UserInformation" />
+        </EntityType>
+        <Association Name="FK_Feedback_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="Feedback" Type="Self.Feedback" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Feedback">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MyCars_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="MyCars" Type="Self.MyCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="MyCars">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OTP_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="OneTimePassword" Type="Self.OneTimePassword" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="OneTimePassword">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSetting_UserInformation">
+          <End Role="UserInformation" Type="Self.UserInformation" Multiplicity="1" />
+          <End Role="UserSetting" Type="Self.UserSetting" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserInformation">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarTrackEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="APILogs" EntityType="Self.APILog" />
+          <EntitySet Name="APIMasters" EntityType="Self.APIMaster" />
+          <EntitySet Name="DefaultSettings" EntityType="Self.DefaultSetting" />
+          <EntitySet Name="DeviceInventories" EntityType="Self.DeviceInventory" />
+          <EntitySet Name="EmailTemplates" EntityType="Self.EmailTemplate" />
+          <EntitySet Name="ErrorMessageMasters" EntityType="Self.ErrorMessageMaster" />
+          <EntitySet Name="Feedbacks" EntityType="Self.Feedback" />
+          <EntitySet Name="MyCars" EntityType="Self.MyCar" />
+          <EntitySet Name="OneTimePasswords" EntityType="Self.OneTimePassword" />
+          <EntitySet Name="UserInformations" EntityType="Self.UserInformation" />
+          <EntitySet Name="UserSettings" EntityType="Self.UserSetting" />
+          <AssociationSet Name="FK_Feedback_UserInformation" Association="Self.FK_Feedback_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformations" />
+            <End Role="Feedback" EntitySet="Feedbacks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MyCars_UserInformation" Association="Self.FK_MyCars_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformations" />
+            <End Role="MyCars" EntitySet="MyCars" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OTP_UserInformation" Association="Self.FK_OTP_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformations" />
+            <End Role="OneTimePassword" EntitySet="OneTimePasswords" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSetting_UserInformation" Association="Self.FK_UserSetting_UserInformation">
+            <End Role="UserInformation" EntitySet="UserInformations" />
+            <End Role="UserSetting" EntitySet="UserSettings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarTrackModelStoreContainer" CdmEntityContainer="CarTrackEntities">
+          <EntitySetMapping Name="APILogs">
+            <EntityTypeMapping TypeName="CarTrackModel.APILog">
+              <MappingFragment StoreEntitySet="APILog">
+                <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="TimeTaken" ColumnName="TimeTaken" />
+                <ScalarProperty Name="APICode" ColumnName="APICode" />
+                <ScalarProperty Name="ErrorFound" ColumnName="ErrorFound" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="APIResponse" ColumnName="APIResponse" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="UserDeviceID" ColumnName="UserDeviceID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="APIMasters">
+            <EntityTypeMapping TypeName="CarTrackModel.APIMaster">
+              <MappingFragment StoreEntitySet="APIMaster">
+                <ScalarProperty Name="APICode" ColumnName="APICode" />
+                <ScalarProperty Name="APIName" ColumnName="APIName" />
+                <ScalarProperty Name="RequestParam" ColumnName="RequestParam" />
+                <ScalarProperty Name="ResponseParam" ColumnName="ResponseParam" />
+                <ScalarProperty Name="MethodType" ColumnName="MethodType" />
+                <ScalarProperty Name="IsAuthTokenRequired" ColumnName="IsAuthTokenRequired" />
+                <ScalarProperty Name="ApiURL" ColumnName="ApiURL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DefaultSettings">
+            <EntityTypeMapping TypeName="CarTrackModel.DefaultSetting">
+              <MappingFragment StoreEntitySet="DefaultSetting">
+                <ScalarProperty Name="SettingID" ColumnName="SettingID" />
+                <ScalarProperty Name="PurchaseUrl" ColumnName="PurchaseUrl" />
+                <ScalarProperty Name="NotificationInterval" ColumnName="NotificationInterval" />
+                <ScalarProperty Name="NotificationLanguage" ColumnName="NotificationLanguage" />
+                <ScalarProperty Name="NotificationDistance" ColumnName="NotificationDistance" />
+                <ScalarProperty Name="AboutUsUrl" ColumnName="AboutUsUrl" />
+                <ScalarProperty Name="MinDistance" ColumnName="MinDistance" />
+                <ScalarProperty Name="MaxDistance" ColumnName="MaxDistance" />
+                <ScalarProperty Name="MinRefreshInterval" ColumnName="MinRefreshInterval" />
+                <ScalarProperty Name="MaxRefreshInterval" ColumnName="MaxRefreshInterval" />
+                <ScalarProperty Name="AddDeviceAfterDays" ColumnName="AddDeviceAfterDays" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceInventories">
+            <EntityTypeMapping TypeName="CarTrackModel.DeviceInventory">
+              <MappingFragment StoreEntitySet="DeviceInventory">
+                <ScalarProperty Name="BeaconID" ColumnName="BeaconID" />
+                <ScalarProperty Name="InventoryStatus" ColumnName="InventoryStatus" />
+                <ScalarProperty Name="InventoryIncDate" ColumnName="InventoryIncDate" />
+                <ScalarProperty Name="IsRegistered" ColumnName="IsRegistered" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="BeaconUDID" ColumnName="BeaconUDID" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTemplates">
+            <EntityTypeMapping TypeName="CarTrackModel.EmailTemplate">
+              <MappingFragment StoreEntitySet="EmailTemplate">
+                <ScalarProperty Name="TemplateID" ColumnName="TemplateID" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="TemplateBody" ColumnName="TemplateBody" />
+                <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorMessageMasters">
+            <EntityTypeMapping TypeName="CarTrackModel.ErrorMessageMaster">
+              <MappingFragment StoreEntitySet="ErrorMessageMaster">
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="ErrorFound" ColumnName="ErrorFound" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Feedbacks">
+            <EntityTypeMapping TypeName="CarTrackModel.Feedback">
+              <MappingFragment StoreEntitySet="Feedback">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserFeedback" ColumnName="UserFeedback" />
+                <ScalarProperty Name="FeedbackDate" ColumnName="FeedbackDate" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="RatingText" ColumnName="RatingText" />
+                <ScalarProperty Name="FeedBackID" ColumnName="FeedBackID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyCars">
+            <EntityTypeMapping TypeName="CarTrackModel.MyCar">
+              <MappingFragment StoreEntitySet="MyCars">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BeaconID" ColumnName="BeaconID" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="BeaconImage" ColumnName="BeaconImage" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="UserDeviceID" ColumnName="UserDeviceID" />
+                <ScalarProperty Name="DeviceStatus" ColumnName="DeviceStatus" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="BeaconUDID" ColumnName="BeaconUDID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="DeletionDate" ColumnName="DeletionDate" />
+                <ScalarProperty Name="Major" ColumnName="Major" />
+                <ScalarProperty Name="Minor" ColumnName="Minor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OneTimePasswords">
+            <EntityTypeMapping TypeName="CarTrackModel.OneTimePassword">
+              <MappingFragment StoreEntitySet="OneTimePassword">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="OTP" ColumnName="OTP" />
+                <ScalarProperty Name="IsExpired" ColumnName="IsExpired" />
+                <ScalarProperty Name="OTPDate" ColumnName="OTPDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInformations">
+            <EntityTypeMapping TypeName="CarTrackModel.UserInformation">
+              <MappingFragment StoreEntitySet="UserInformation">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginErrorCount" ColumnName="LoginErrorCount" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="UserDeviceID" ColumnName="UserDeviceID" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSettings">
+            <EntityTypeMapping TypeName="CarTrackModel.UserSetting">
+              <MappingFragment StoreEntitySet="UserSetting">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="NotificationInterval" ColumnName="NotificationInterval" />
+                <ScalarProperty Name="NotificationLanguage" ColumnName="NotificationLanguage" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
