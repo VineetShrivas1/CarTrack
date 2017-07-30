@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CarTrackModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="CarTrackModelStoreContainer">
+          <EntitySet Name="MyCars" EntityType="CarTrackModel.Store.MyCars" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInformation" EntityType="CarTrackModel.Store.UserInformation" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="MyCars">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="BeaconID" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="CarName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="IsFavorite" Type="bit" />
+          <Property Name="BecaonImage" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="varchar" Nullable="false" MaxLength="128" />
+          <Property Name="UserPassword" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="EmailAddress" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="MobileNumber" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="FullName" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="LastLoginDate" Type="datetime" />
+          <Property Name="LoginErrorCount" Type="int" />
+          <Property Name="IsLocked" Type="bit" />
+        </EntityType>
+        <Function Name="USP_Register" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserID" Type="varchar" Mode="In" />
+          <Parameter Name="UserPassword" Type="varchar" Mode="In" />
+          <Parameter Name="EmailAddress" Type="varchar" Mode="In" />
+          <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
+          <Parameter Name="FullName" Type="varchar" Mode="In" />
+          <Parameter Name="ErrorCode" Type="varchar" Mode="InOut" />
+          <Parameter Name="ErrorMessage" Type="varchar" Mode="InOut" />
+          <Parameter Name="ErrorFound" Type="bit" Mode="InOut" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarTrackModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="CarTrackEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="UserInformations" EntityType="CarTrackModel.UserInformation" />
+          <EntitySet Name="MyCars" EntityType="CarTrackModel.MyCar" />
+          <FunctionImport Name="Register">
+            <Parameter Name="UserID" Mode="In" Type="String" />
+            <Parameter Name="UserPassword" Mode="In" Type="String" />
+            <Parameter Name="EmailAddress" Mode="In" Type="String" />
+            <Parameter Name="MobileNumber" Mode="In" Type="String" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="ErrorCode" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorMessage" Mode="InOut" Type="String" />
+            <Parameter Name="ErrorFound" Mode="InOut" Type="Boolean" />
+          </FunctionImport>
+         
+        </EntityContainer>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="String" Nullable="false" MaxLength="128" Unicode="false" FixedLength="false" />
+          <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="MobileNumber" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="LastLoginDate" Type="DateTime" Precision="3" />
+          <Property Name="LoginErrorCount" Type="Int32" />
+          <Property Name="IsLocked" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="MyCar">
+          <Key>
+            <PropertyRef Name="BeaconID" />
+          </Key>
+          <Property Type="String" Name="UserID" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="BeaconID" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CarName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsFavorite" />
+          <Property Type="Binary" Name="BecaonImage" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarTrackModelStoreContainer" CdmEntityContainer="CarTrackEntities">
+          <EntitySetMapping Name="UserInformations">
+            <EntityTypeMapping TypeName="CarTrackModel.UserInformation">
+              <MappingFragment StoreEntitySet="UserInformation">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="LoginErrorCount" ColumnName="LoginErrorCount" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MyCars">
+            <EntityTypeMapping TypeName="CarTrackModel.MyCar">
+              <MappingFragment StoreEntitySet="MyCars">
+                <ScalarProperty Name="BecaonImage" ColumnName="BecaonImage" />
+                <ScalarProperty Name="IsFavorite" ColumnName="IsFavorite" />
+                <ScalarProperty Name="CarName" ColumnName="CarName" />
+                <ScalarProperty Name="BeaconID" ColumnName="BeaconID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Register" FunctionName="CarTrackModel.Store.USP_Register" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
